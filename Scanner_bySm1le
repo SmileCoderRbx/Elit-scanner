@@ -1,0 +1,267 @@
+print("Elit is start")
+
+local function debug(msg)
+	if 0 == 1 then 
+		game:GetService('TestService'):Message('ElitScanner // '..tostring(msg))
+	end 
+end 
+
+-- SERVICES
+local CoreGui = game:GetService("CoreGui")
+
+-- GUI OBJECTS
+local ScrnGui = Instance.new("ScreenGui")
+local Main = Instance.new("Frame")
+local TopBar = Instance.new("Frame")
+local Title = Instance.new("TextLabel")
+local Close = Instance.new("TextButton")
+
+local SideBar = Instance.new("Frame")
+local Content = Instance.new("Frame")
+
+local CodeBox = Instance.new("TextBox")
+local Execute = Instance.new("TextButton")
+local Scan = Instance.new("TextButton")
+
+-- SCREEN GUI
+ScrnGui.Name = "ElitScanner"
+ScrnGui.Parent = CoreGui
+ScrnGui.ResetOnSpawn = false
+
+-- MAIN FRAME
+Main.Parent = ScrnGui
+Main.Name = "ElitMain"
+Main.Active = true
+Main.Draggable = true
+Main.BackgroundColor3 = Color3.fromRGB(18,18,22)
+Main.BorderSizePixel = 0
+Main.Size = UDim2.new(0, 600, 0, 320)
+Main.Position = UDim2.new(0.5, -300, 0.5, -160)
+Main.ClipsDescendants = true
+
+local mainStroke = Instance.new("UIStroke", Main)
+mainStroke.Color = Color3.fromRGB(140,120,210)
+mainStroke.Thickness = 2
+
+-- TOP BAR
+TopBar.Parent = Main
+TopBar.Size = UDim2.new(1,0,0,36)
+TopBar.BackgroundColor3 = Color3.fromRGB(30,30,38)
+TopBar.BorderSizePixel = 0
+
+local topStroke = Instance.new("UIStroke", TopBar)
+topStroke.Color = Color3.fromRGB(140,120,210)
+topStroke.Thickness = 1
+
+-- TITLE
+Title.Parent = TopBar
+Title.BackgroundTransparency = 1
+Title.Position = UDim2.new(0,10,0,0)
+Title.Size = UDim2.new(1,-50,1,0)
+Title.Font = Enum.Font.Code
+Title.TextSize = 15
+Title.TextXAlignment = Enum.TextXAlignment.Left
+Title.Text = "ELIT Scanner									by SM1LE"
+Title.TextColor3 = Color3.fromRGB(210,200,255)
+
+-- CLOSE
+Close.Parent = TopBar
+Close.Size = UDim2.new(0,28,0,28)
+Close.Position = UDim2.new(1,-32,0.5,-14)
+Close.Text = "X"
+Close.Font = Enum.Font.Code
+Close.TextSize = 14
+Close.BackgroundColor3 = Color3.fromRGB(60,50,90)
+Close.TextColor3 = Color3.fromRGB(240,240,240)
+Close.BorderSizePixel = 0
+
+Close.MouseButton1Click:Connect(function()
+	ScrnGui:Destroy()
+end)
+
+-- SIDEBAR
+SideBar.Parent = Main
+SideBar.Position = UDim2.new(0,8,0,44)
+SideBar.Size = UDim2.new(0,150,1,-52)
+SideBar.BackgroundColor3 = Color3.fromRGB(22,22,28)
+SideBar.BorderSizePixel = 0
+
+local sideStroke = Instance.new("UIStroke", SideBar)
+sideStroke.Color = Color3.fromRGB(100,90,160)
+sideStroke.Thickness = 1
+
+-- CONTENT
+Content.Parent = Main
+Content.Position = UDim2.new(0,166,0,44)
+Content.Size = UDim2.new(1,-174,1,-52)
+Content.BackgroundColor3 = Color3.fromRGB(26,26,32)
+Content.BorderSizePixel = 0
+
+local contentStroke = Instance.new("UIStroke", Content)
+contentStroke.Color = Color3.fromRGB(90,80,140)
+contentStroke.Thickness = 1
+
+-- CODE BOX
+CodeBox.Parent = Content
+CodeBox.Position = UDim2.new(0,8,0,8)
+CodeBox.Size = UDim2.new(1,-16,1,-60)
+CodeBox.MultiLine = true
+CodeBox.ClearTextOnFocus = false
+CodeBox.Font = Enum.Font.Code
+CodeBox.TextSize = 13
+CodeBox.TextXAlignment = Enum.TextXAlignment.Left
+CodeBox.TextYAlignment = Enum.TextYAlignment.Top
+CodeBox.BackgroundColor3 = Color3.fromRGB(14,14,18)
+CodeBox.BorderSizePixel = 0
+CodeBox.TextColor3 = Color3.fromRGB(200,180,255)
+CodeBox.Text = "Hey"
+
+-- ACTION BUTTONS
+local function setupBtn(btn, text, posX)
+	btn.Parent = Content
+	btn.Size = UDim2.new(0.48,-4,0,34)
+	btn.Position = UDim2.new(posX,0,1,-42)
+	btn.BackgroundColor3 = Color3.fromRGB(55,50,90)
+	btn.BorderSizePixel = 0
+	btn.Font = Enum.Font.Code
+	btn.TextSize = 14
+	btn.TextColor3 = Color3.fromRGB(230,230,240)
+	btn.Text = text
+end
+
+setupBtn(Execute, "EXECUTE", 0)
+setupBtn(Scan, "SCAN", 0.52)
+
+----------------------------------------------------------------
+-- HUB BUTTON SYSTEM
+----------------------------------------------------------------
+
+local hubButtonIndex = 0
+
+local function hubButton(title, code)
+	hubButtonIndex += 1
+
+	local btn = Instance.new("TextButton")
+	btn.Parent = SideBar
+	btn.Size = UDim2.new(1, -10, 0, 30)
+	btn.Position = UDim2.new(0, 5, 0, (hubButtonIndex - 1) * 34 + 6)
+	btn.BackgroundColor3 = Color3.fromRGB(45, 40, 70)
+	btn.BorderSizePixel = 0
+	btn.Font = Enum.Font.Code
+	btn.TextSize = 12
+	btn.TextColor3 = Color3.fromRGB(210, 200, 255)
+	btn.Text = title
+	btn.AutoButtonColor = false
+
+	btn.MouseEnter:Connect(function()
+		btn.BackgroundColor3 = Color3.fromRGB(70, 60, 120)
+	end)
+	btn.MouseLeave:Connect(function()
+		btn.BackgroundColor3 = Color3.fromRGB(45, 40, 70)
+	end)
+
+	btn.MouseButton1Click:Connect(function()
+		CodeBox.Text = code
+	end)
+end
+
+-- HUB BUTTONS
+hubButton("Admin", [[require(7192763922).load("User")]])
+hubButton("k00pgui", [[require(14829670677).EDITL0L("User")]])
+hubButton("c00lgui", [[require(133464960745567).woawsoc00l("User")]])
+hubButton("RC7", [[require(12350030542).RC7("User")]])
+hubButton("DreambullGui", [[require(15232587754).DreamGUI("User")]])
+hubButton("Sm1le Gui", [[require(113418830684219).load("User")]])
+hubButton("RoXploit", [[require(96184029574075)("User")]])
+
+----------------------------------------------------------------
+-- FUNCTIONALITY (ORIGINAL)
+----------------------------------------------------------------
+
+local AcquiredRemote = nil 
+local IsAcquiring = false 
+
+Execute.MouseButton1Click:Connect(function()
+	local CodeStr = CodeBox.Text
+	local InvokeFunc = Instance.new("BindableEvent")
+	InvokeFunc.Event:Connect(function(rfunc,codestr2)
+		rfunc:InvokeServer(codestr2)
+	end)
+
+	local function DeepFire(inst)
+		if not IsAcquiring then 
+			if AcquiredRemote == nil then 
+				for _, childy in inst:GetChildren() do
+					if childy.Parent ~= game:GetService('RobloxReplicatedStorage') then
+						if childy:IsA("RemoteEvent") then
+							childy:FireServer(CodeStr)
+						elseif childy:IsA("RemoteFunction") then
+							InvokeFunc:Fire(childy, CodeStr)
+						end
+					end
+					DeepFire(childy)
+				end 
+			else 
+				if AcquiredRemote:IsA("RemoteEvent") then 
+					AcquiredRemote:FireServer(CodeStr) 
+				elseif AcquiredRemote:IsA("RemoteFunction") then 
+					task.spawn(function()
+						AcquiredRemote:InvokeServer(CodeStr)
+					end)
+				end
+			end
+		end
+	end
+	DeepFire(game)
+end)
+
+Scan.MouseButton1Click:Connect(function() 
+	local RemoteList = {} 
+
+	if not IsAcquiring then 
+		IsAcquiring = true 
+		CodeBox.Text = 'Please wait until the scan is finished.'
+
+		for _,v in pairs(game:GetDescendants()) do 
+			if v.Parent ~= game:GetService('RobloxReplicatedStorage') then 
+				if v:IsA("RemoteEvent") or v:IsA("RemoteFunction") then 
+					table.insert(RemoteList,v) 
+				end 
+			end
+		end 
+
+		for _,b in pairs(RemoteList) do
+			if AcquiredRemote == nil then 
+				local name = string.char(
+					math.random(65,90),math.random(65,90),math.random(65,90),
+					math.random(65,90),math.random(65,90),math.random(65,90),
+					math.random(65,90),math.random(65,90)
+				)
+
+				local code = 'Instance.new("Model",workspace).Name="'..name..'"'
+
+				if b:IsA("RemoteEvent") then
+					b:FireServer(code)
+				else
+					task.spawn(function()
+						b:InvokeServer(code)
+					end)
+				end
+
+				wait(2.5)
+
+				if workspace:FindFirstChild(name) then
+					AcquiredRemote = b
+				end
+			end
+		end
+
+		if AcquiredRemote then
+			CodeBox.Text = "The scan is successful!"
+		else
+			CodeBox.Text = "Not found :("
+		end
+
+		IsAcquiring = false
+	end
+end)
